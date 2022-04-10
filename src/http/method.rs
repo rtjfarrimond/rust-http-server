@@ -1,3 +1,4 @@
+use std::fmt::{Display, Error as FmtError, Formatter};
 use std::str::FromStr;
 
 pub enum Method {
@@ -10,6 +11,23 @@ pub enum Method {
     OPTIONS,
     TRACE,
     PATCH,
+}
+
+impl Display for Method {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), FmtError> {
+        let s = match self {
+            Self::GET => "GET",
+            Self::HEAD => "HEAD",
+            Self::POST => "POST",
+            Self::PUT => "PUT",
+            Self::DELETE => "DELETE",
+            Self::CONNECT => "CONNECT",
+            Self::OPTIONS => "OPTIONS",
+            Self::TRACE => "TRACE",
+            Self::PATCH => "PATCH",
+        };
+        write!(f, "{}", s.to_string())
+    }
 }
 
 pub struct MethodError;

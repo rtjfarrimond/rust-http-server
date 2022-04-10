@@ -34,7 +34,7 @@ impl Server {
                         Ok(_) => {
                             println!("Received request:\n{}", String::from_utf8_lossy(&buffer));
                             match Request::try_from(&buffer[..]) {
-                                Ok(req) => {}
+                                Ok(req) => println!("Request parsed:\n{}", req),
                                 Err(e) => println!("Error parsing request: {}", e),
                             }
                             ()

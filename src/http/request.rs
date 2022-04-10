@@ -16,6 +16,20 @@ pub struct Request {
     method: Method,
 }
 
+impl Display for Request {
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), FmtError> {
+        let query_string = match &self.query_string {
+            Some(qs) => qs.to_string(),
+            None => "-".to_string(),
+        };
+        write!(
+            f,
+            "Path: {}\nQuery String: {}\nMethod: {}",
+            self.path, query_string, self.method
+        )
+    }
+}
+
 impl TryFrom<&[u8]> for Request {
     type Error = ParseError;
 
@@ -86,9 +100,11 @@ impl Debug for ParseError {
         write!(f, "{}", self.message())
     }
 }
+
 impl Display for ParseError {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), FmtError> {
         write!(f, "{}", self.message())
     }
 }
+
 impl Error for ParseError {}
