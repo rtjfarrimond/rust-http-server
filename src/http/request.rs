@@ -1,5 +1,6 @@
 use super::method::Method;
 use super::method::MethodError;
+use super::QueryString;
 use std::convert::From;
 use std::convert::TryFrom;
 use std::error::Error;
@@ -12,7 +13,7 @@ use std::str::Utf8Error;
 
 pub struct Request<'buf> {
     path: &'buf str,
-    query_string: Option<&'buf str>,
+    query_string: Option<QueryString<'buf>>,
     method: Method,
 }
 
@@ -48,7 +49,8 @@ impl<'buf> TryFrom<&'buf [u8]> for Request<'buf> {
             None => path_and_query,
             Some(i) => &path_and_query[..i],
         };
-        let query_string: Option<&str> = pivot_option.map(|i| &path_and_query[i + 1..]);
+        let query_string: Option<QueryString<'buf>> =
+            pivot_option.map(|i| QueryString::from(&path_and_query[i + 1..]));
         let method: Method = method.parse()?;
 
         let request = Request {
