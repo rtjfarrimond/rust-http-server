@@ -1,6 +1,7 @@
 use std::fmt::{Display, Error as FmtError, Formatter};
 use std::str::FromStr;
 
+#[derive(Debug)]
 pub enum Method {
     GET,
     HEAD,

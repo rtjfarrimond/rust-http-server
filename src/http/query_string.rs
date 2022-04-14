@@ -3,6 +3,7 @@ use std::convert::From;
 use std::string::ToString;
 use std::vec::Vec;
 
+#[derive(Debug)]
 pub struct QueryString<'buf> {
     data: HashMap<&'buf str, Value<'buf>>,
 }
@@ -19,6 +20,7 @@ impl<'buf> ToString for QueryString<'buf> {
     }
 }
 
+#[derive(Debug)]
 pub enum Value<'buf> {
     Single(&'buf str),
     Multiple(Vec<&'buf str>),
